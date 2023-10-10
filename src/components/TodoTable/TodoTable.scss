@@ -1,0 +1,23 @@
+.todotable {
+  max-width: 70%;
+  margin: 80px auto 0;
+  border: 1px solid lightgray;
+
+  &__list {
+    margin: 0;
+  }
+
+  &__footer {
+    padding: 20px 30px;
+  }
+
+  &__empty-placeholder {
+    font-weight: 400;
+    text-align: center;
+    color: lightgrey;
+  }
+
+  &--fullwidth {
+    width: 100%;
+  }
+}

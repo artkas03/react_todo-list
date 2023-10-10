@@ -1,0 +1,45 @@
+.todo-row {
+  &__cell {
+    font-weight: 400;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    max-width: 400px;
+  }
+
+  &__option {
+    color: black;
+  }
+
+  &--centered {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  &__status {
+    &-completed {
+      color: green !important;
+    }
+
+    &-active {
+      color: red !important;
+    }
+  }
+
+  &--contentfit {
+    width: fit-content;
+  }
+
+  &__icons {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+  }
+
+  &__icon {
+    max-width: 35%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

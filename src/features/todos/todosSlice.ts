@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Todo } from "../../types/Todo";
 
-type AuthorState = {
+type TodosState = {
   todos: Todo[],
+  todoToEdit: Todo | null,
 }
 
-const initialState: AuthorState = {
+const initialState: TodosState = {
   todos: [],
+  todoToEdit: null,
 }
 
 export const todosSlice = createSlice({
@@ -20,14 +22,19 @@ export const todosSlice = createSlice({
 
       state.todos.push({ ...action.payload, id: newId });
     },
+    setTodoToEdit(state, action: PayloadAction<Todo | null>) {
+      state.todoToEdit = action.payload;
+    },
     update(state, action: PayloadAction<Todo>) {
       state.todos = state.todos.map(todo => {
         if (todo.id === action.payload.id) {
-          return action.payload;
+          return { ...action.payload };
         }
 
         return todo;
       })
+
+      state.todoToEdit = null;
     },
     remove(state, action: PayloadAction<Number>) {
       state.todos = state.todos.filter(todo => todo.id !== action.payload);
@@ -36,4 +43,4 @@ export const todosSlice = createSlice({
 });
 
 export const todosReducer = todosSlice.reducer;
-export const { add, update, remove } = todosSlice.actions;
+export const { add, update, setTodoToEdit, remove } = todosSlice.actions;

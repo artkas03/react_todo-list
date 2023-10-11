@@ -7,20 +7,31 @@ import { Form } from 'react-bootstrap';
 import { useAppDispatch } from '../../app/hooks';
 import * as todosActions from '../../features/todos/todosSlice';
 import { Image } from 'react-bootstrap';
+
 import editIcon from '../../assets/icons/edit-icon.svg';
 import deleteIcon from '../../assets/icons/red-delete.svg';
 
 type Props = {
   todo: Todo,
+  onShowModal: () => void,
 }
 
-const TodoRow: React.FC<Props> = ({ todo }) => {
+const TodoRow: React.FC<Props> = ({ todo, onShowModal }) => {
   const { title, task, status } = todo;
 
   const dispatch = useAppDispatch();
 
   const handleOnChageStatus = (newStatus: Status) => {
     dispatch(todosActions.update({ ...todo, status: newStatus }));
+  }
+
+  const handleOnEdit = () => {
+    dispatch(todosActions.setTodoToEdit(todo));
+    onShowModal();
+  }
+  
+  const handleOnDelete = () => {
+    dispatch(todosActions.remove(todo.id));
   }
 
   return (
@@ -45,8 +56,16 @@ const TodoRow: React.FC<Props> = ({ todo }) => {
       </th>
       <th className='todo-row__cell todo-row--centered'>
         <div className="todo-row__icons">
-          <Image src={editIcon} className="todo-row__icon" />
-          <Image src={deleteIcon} className="todo-row__icon" />
+          <Image 
+            src={editIcon} 
+            className="todo-row__icon"
+            onClick={handleOnEdit}
+          />
+          <Image 
+            src={deleteIcon} 
+            className="todo-row__icon"
+            onClick={handleOnDelete}
+          />
         </div>
       </th>
     </tr>

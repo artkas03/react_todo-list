@@ -9,10 +9,14 @@ function App() {
   return (
     <div className="App">
       {isShowModal && (
-        <TodoModal onCloseModal={() => setIsShowModal(false)} />
+        <TodoModal 
+          onCloseModal={() => setIsShowModal(false)}
+        />
       )}
 
-      <TodoTable onShowModal={() => setIsShowModal(true)} />
+      <TodoTable 
+        onShowModal={() => setIsShowModal(true)}
+      />
     </div>
   );
 }

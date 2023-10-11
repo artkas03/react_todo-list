@@ -1,8 +1,11 @@
-import React from 'react';
-import { Table, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table, Button, ButtonGroup } from 'react-bootstrap';
 import './TodoTable.scss';
 import { useAppSelector } from '../../app/hooks';
 import TodoRow from '../TodoRow/TodoRow';
+import { Filter } from '../../types/Filter';
+import cn from 'classnames';
+import { filterTodos } from '../../utils/functions';
 
 type Props = {
   onShowModal: () => void,
@@ -10,6 +13,9 @@ type Props = {
 
 const TodoTable: React.FC<Props> = ({ onShowModal }) => {
   const { todos } = useAppSelector(state => state.todos);
+  const [filter, setFilter] = useState<Filter>(Filter.all);
+
+  const visibleTodos = filterTodos(todos, { filter });
 
   return (
     <div className='todotable'>
@@ -25,17 +31,53 @@ const TodoTable: React.FC<Props> = ({ onShowModal }) => {
         <tbody>
           {todos.length === 0 ? (
             <tr>
-              <th colSpan={3} className='todotable__empty-placeholder'>There is no todos yet...</th>
+              <th colSpan={4} className='todotable__empty-placeholder'>There is no todos yet...</th>
             </tr>
           ) : (
-            todos.map(todo => (
-              <TodoRow key={todo.id} todo={todo} />
+            visibleTodos.map(todo => (
+              <TodoRow 
+                key={todo.id}
+                todo={todo}
+                onShowModal={onShowModal}
+              />
             ))
           )}
         </tbody>
       </Table>
 
       <div className='todotable__footer'>
+        <ButtonGroup aria-label="Basic example">
+          <Button 
+            variant="secondary"
+            className={cn({
+              'todotable__filter--active': filter === Filter.all
+            })}
+            onClick={() => setFilter(Filter.all)}
+          >
+            All
+          </Button>
+
+          <Button 
+            variant="secondary"
+            className={cn({
+              'todotable__filter--active': filter === Filter.completed
+            })}
+            onClick={() => setFilter(Filter.completed)}
+          >
+            Completed
+          </Button>
+
+          <Button 
+            variant="secondary"
+            className={cn({
+              'todotable__filter--active': filter === Filter.active
+            })}
+            onClick={() => setFilter(Filter.active)}
+          >
+            Active
+          </Button>
+        </ButtonGroup>
+
         <Button variant="primary" onClick={onShowModal}>Add Todo</Button>
       </div>
     </div>

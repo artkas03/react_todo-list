@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, Row } from 'react-bootstrap';
 import { Status } from '../../types/Status';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import * as todosActions from '../../features/todos/todosSlice';
 
 type Props = {
@@ -9,12 +9,14 @@ type Props = {
 }
 
 const TodoModal: React.FC<Props> = ({ onCloseModal }) => {
-  const [title, setTitle] = useState('');
+  const todoToUpdate = useAppSelector(state => state.todos.todoToEdit);
+
+  const [title, setTitle] = useState(todoToUpdate?.title || '');
   const [isTitleError, setIsTitleError] = useState(false);
 
-  const [task, setTask] = useState('');
+  const [task, setTask] = useState(todoToUpdate?.task || '');
 
-  const [status, setStatus] = useState<Status>(Status.ACTIVE);
+  const [status, setStatus] = useState<Status>(todoToUpdate?.status || Status.ACTIVE);
 
   const dispatch = useAppDispatch();
 
@@ -26,12 +28,20 @@ const TodoModal: React.FC<Props> = ({ onCloseModal }) => {
       return;
     }
 
-    dispatch(todosActions.add({
-      title,
-      task: task.trim(),
-      status,
-    }));
-
+    if (todoToUpdate) {
+      dispatch(todosActions.update({
+        id: todoToUpdate.id,
+        title,
+        task: task.trim(),
+        status,
+      }));
+    } else {
+      dispatch(todosActions.add({
+        title,
+        task: task.trim(),
+        status,
+      }));
+    }
     onCloseModal();
   }
 

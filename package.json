@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "classnames": "^2.3.2",
+    "gh-pages": "^6.0.0",
     "sass": "^1.69.1"
   }
 }

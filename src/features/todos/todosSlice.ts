@@ -7,7 +7,7 @@ type TodosState = {
 }
 
 const initialState: TodosState = {
-  todos: [],
+  todos: JSON.parse(localStorage.getItem('todos') || '') || [],
   todoToEdit: null,
 }
 
@@ -21,6 +21,7 @@ export const todosSlice = createSlice({
         : 1;
 
       state.todos.push({ ...action.payload, id: newId });
+      localStorage.setItem(todosSlice.name, JSON.stringify(state.todos));
     },
     setTodoToEdit(state, action: PayloadAction<Todo | null>) {
       state.todoToEdit = action.payload;
@@ -35,9 +36,11 @@ export const todosSlice = createSlice({
       })
 
       state.todoToEdit = null;
+      localStorage.setItem(todosSlice.name, JSON.stringify(state.todos));
     },
     remove(state, action: PayloadAction<Number>) {
       state.todos = state.todos.filter(todo => todo.id !== action.payload);
+      localStorage.setItem(todosSlice.name, JSON.stringify(state.todos));
     }
   },
 });

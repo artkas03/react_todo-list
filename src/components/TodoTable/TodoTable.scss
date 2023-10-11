@@ -12,6 +12,11 @@
     text-align: right;
     display: flex;
     justify-content: space-around;
+
+    @media (max-width: 500px) {
+      flex-direction: column;
+      gap: 10px;
+    }
   }
 
   &__empty-placeholder {
@@ -26,5 +31,9 @@
 
   &__filter--active {
     background-color: #5c6065;
+  }
+
+  @media (max-width: 720px) {
+    max-width: 90%;
   }
 }

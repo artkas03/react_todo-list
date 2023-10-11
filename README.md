@@ -18,7 +18,7 @@ Application that you can use to:
 
 - form validation
 
-### How ro run project locally?
+### How ro run the project locally?
 
 1. `npm i`
 

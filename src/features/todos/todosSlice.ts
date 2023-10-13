@@ -7,7 +7,7 @@ type TodosState = {
 }
 
 const initialState: TodosState = {
-  todos: JSON.parse(localStorage.getItem('todos') || '') || [],
+  todos: [],
   todoToEdit: null,
 }
 
